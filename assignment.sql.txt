@@ -1,0 +1,39 @@
+assignment.sql
+
+-- 1. Create Kayaks Table
+CREATE TABLE kayaks (
+    kayak_id NUMBER PRIMARY KEY,
+    kayak_type VARCHAR2(50),
+    kayak_model VARCHAR2(50),
+    manufacturer VARCHAR2(50)
+);
+
+-- 2. Create Customers Table
+CREATE TABLE customers (
+    cust_id NUMBER PRIMARY KEY,
+    cust_fname VARCHAR2(50),
+    cust_sname VARCHAR2(50),
+    cust_address VARCHAR2(100),
+    cust_contact VARCHAR2(50)
+);
+
+-- 3. Create Upgrades Table
+CREATE TABLE upgrades (
+    upgrade_id NUMBER PRIMARY KEY,
+    upgrade_work VARCHAR2(100),
+    upgrade_date DATE,
+    upgrade_hrs NUMBER
+);
+
+-- 4. Create Junction Table (Kayak Upgrades)
+CREATE TABLE kayak_upgrades (
+    kayak_upgrade_num NUMBER PRIMARY KEY,
+    kayak_upgrade_date DATE,
+    kayak_upgrade_amt NUMBER,
+    kayak_id NUMBER REFERENCES kayaks(kayak_id),
+    cust_id NUMBER REFERENCES customers(cust_id),
+    upgrade_id NUMBER REFERENCES upgrades(upgrade_id)
+);
+
+-- Commit the changes to save them permanently
+COMMIT;
