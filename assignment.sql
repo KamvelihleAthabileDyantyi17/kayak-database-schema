@@ -83,7 +83,7 @@ SELECT * FROM customers;
 SELECT * FROM upgrades;mah mcma
 SELECT * FROM kayak_upgrades;
 
-Question 3
+Question 3.1
 
 naming issue
 
@@ -98,3 +98,92 @@ GRANT SELECT ANY TABLE TO Tshepo, Mya;
 
 -- This is to check if the users are saved and to visually see them 
 SELECT username FROM all_users WHERE username IN ('TSHEPO', 'MYA');
+
+
+Question 3.2
+The Theory: User Permissions & Separation of Duties
+When writing this up for your assignment, here is how to explain these concepts like an enterprise-level developer.
+
+What are User Permissions?
+Think of user permissions as the digital bouncers of your database. They define exactly who can access the system and what they are allowed to do once inside. Without permissions, anyone who logs in would have the power of a superuser (like the SYSTEM account you are using), which is a massive security risk. We use the Principle of Least Privilege, meaning a user is only given the exact permissions they need to do their job, and absolutely nothing more.
+
+What is Separation of Duties (SoD)?
+Separation of Duties is a core security principle where critical tasks are split up among multiple people or roles. The rule is simple: No single person should have total control over a process from start to finish.
+
+Why is it so important?
+
+Preventing Fraud: Imagine an e-commerce or banking system. If the same person has the permission to create a vendor account and the permission to authorize a payment to that vendor, they could easily steal money. By separating those duties, it forces two different people to authorize the transaction, making fraud much harder.
+
+Preventing Disasters: In a development environment, if a junior dev has the power to write database scripts and run them on the live production server, one typo could delete the entire customer table. SoD means the dev writes the code, but a separate Database Administrator reviews and executes it. It acts as a safety net.
+
+-- Question 4 
+
+
+
+-- had to put the data back it coz SELECT was working 
+INSERT INTO kayaks VALUES (12345, 'Single Seater', 'K100', 'Feelfree');
+INSERT INTO kayaks VALUES (12346, 'Tandem', 'Ocean-2', 'Perception');
+INSERT INTO kayaks VALUES (12347, 'Fishing', 'Stealth-5', 'Viking');
+INSERT INTO kayaks VALUES (12348, 'Racing', 'Sprint-X', 'Epic');
+INSERT INTO kayaks VALUES (12349, 'Inflatable', 'Air-Row', 'Intex');
+
+INSERT INTO customers VALUES (1, 'Bruce', 'Wayne', '1007 Mountain Drive, Gotham', '012-911-0000');
+INSERT INTO customers VALUES (2, 'Clark', 'Kent', '344 Clinton St, Metropolis', '011-555-0100');
+INSERT INTO customers VALUES (3, 'Diana', 'Prince', 'Themyscira Embassy, Paris', '033-777-1941');
+INSERT INTO customers VALUES (4, 'Barry', 'Allen', '120 Central City St, Central City', '055-888-2014');
+INSERT INTO customers VALUES (5, 'Arthur', 'Curry', '1 Lighthouse Point, Amnesty Bay', '021-444-1941');
+
+INSERT INTO upgrades VALUES (101, 'Hull Reinforcement', '01-APR-2026', 5);
+INSERT INTO upgrades VALUES (102, 'GPS Installation', '02-APR-2026', 2);
+INSERT INTO upgrades VALUES (103, 'Rod Holder Mount', '03-APR-2026', 1);
+INSERT INTO upgrades VALUES (104, 'Custom Paint Job', '04-APR-2026', 8);
+INSERT INTO upgrades VALUES (105, 'Rudder System Fit', '05-APR-2026', 4);
+
+INSERT INTO kayak_upgrades VALUES (5001, '06-APR-2026', 1500, 12345, 1, 101); 
+INSERT INTO kayak_upgrades VALUES (5002, '07-APR-2026', 800, 12346, 2, 102); 
+INSERT INTO kayak_upgrades VALUES (5003, '08-APR-2026', 300, 12347, 3, 103); 
+INSERT INTO kayak_upgrades VALUES (5004, '09-APR-2026', 2500, 12348, 4, 104); 
+INSERT INTO kayak_upgrades VALUES (5005, '10-APR-2026', 1200, 12349, 5, 105); 
+
+COMMIT;
+
+-- resize 
+SET LINESIZE 200;
+SET PAGESIZE 100;
+
+--Select works now
+SELECT 
+    ku.kayak_id AS kyid, 
+    ku.cust_id AS customerid, 
+    u.upgrade_hrs AS upgrade_hours, 
+    ku.kayak_upgrade_amt AS kayak_upgrade_amount,
+    (u.upgrade_hrs * ku.kayak_upgrade_amt) AS total_sales_amount
+FROM 
+    kayak_upgrades ku
+JOIN 
+    upgrades u ON ku.upgrade_id = u.upgrade_id;
+
+--Question 5
+-- As always need to resize your table , just to make your table easier , run this first
+SET LINESIZE 200;
+SET PAGESIZE 100;
+COLUMN customer_full_name FORMAT A20;
+COLUMN kayak_type FORMAT A15;
+COLUMN upgrade_work FORMAT A25;
+
+
+-- THen run this
+SELECT 
+    c.cust_fname || ' ' || c.cust_sname AS customer_full_name, 
+    k.kayak_type, 
+    u.upgrade_hrs AS upgrade_hours, 
+    u.upgrade_work, 
+    ku.kayak_upgrade_amt AS kayak_upgrade_amount
+FROM 
+    kayak_upgrades ku
+JOIN 
+    customers c ON ku.cust_id = c.cust_id
+JOIN 
+    kayaks k ON ku.kayak_id = k.kayak_id
+JOIN 
+    upgrades u ON ku.upgrade_id = u.upgrade_id;
