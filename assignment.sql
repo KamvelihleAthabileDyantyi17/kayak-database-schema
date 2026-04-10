@@ -223,3 +223,26 @@ JOIN
 WHERE 
     ku.kayak_upgrade_amt > 50;
     c:\Users\Student\Pictures\Screenshots\Screenshot 2026-04-10 125543.png
+
+   -- Question 7
+SELECT 
+    c.cust_fname || ' ' || c.cust_sname AS customer_name, 
+    k.kayak_type, 
+    u.upgrade_work, 
+    ku.kayak_upgrade_date AS upgrade_date,
+    ku.kayak_upgrade_amt AS original_amount,
+    (ku.kayak_upgrade_amt * 0.10) AS discount_amount,
+    (ku.kayak_upgrade_amt - (ku.kayak_upgrade_amt * 0.10)) AS final_price
+FROM 
+    kayak_upgrades ku
+JOIN 
+    customers c ON ku.cust_id = c.cust_id
+JOIN 
+    kayaks k ON ku.kayak_id = k.kayak_id
+JOIN 
+    upgrades u ON ku.upgrade_id = u.upgrade_id
+WHERE 
+    c.cust_fname = 'Bruce';
+
+    --image of the output
+    c:\Users\Student\Pictures\Screenshots\Screenshot 2026-04-10 134127.png
