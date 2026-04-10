@@ -187,3 +187,39 @@ JOIN
     kayaks k ON ku.kayak_id = k.kayak_id
 JOIN 
     upgrades u ON ku.upgrade_id = u.upgrade_id;
+
+
+-- Question 6
+--so here I jjst changed the amounts so that they wi=ould be probperly abble to do this query
+
+UPDATE kayak_upgrades SET kayak_upgrade_amt = 75 WHERE kayak_upgrade_num = 5001;
+UPDATE kayak_upgrades SET kayak_upgrade_amt = 30 WHERE kayak_upgrade_num = 5002;
+UPDATE kayak_upgrades SET kayak_upgrade_amt = 75 WHERE kayak_upgrade_num = 5003;
+UPDATE kayak_upgrades SET kayak_upgrade_amt = 50 WHERE kayak_upgrade_num = 5004;
+UPDATE kayak_upgrades SET kayak_upgrade_amt = 30 WHERE kayak_upgrade_num = 5005;
+
+COMMIT;
+
+-- this si the SELECRT statement to show the total sales amount for each upgrade, which is the product of upgrade hours and kayak upgrade amount
+/* Q2: CURSOR IDENTIFICATION & SUSTAINABILITY
+   Type of Cursor: Implicit Cursor
+   
+   Reasons for Sustainability:
+   1. Efficiency: Implicit cursors are automatically managed by Oracle for single SQL statements, 
+      reducing overhead and making the code cleaner and easier to maintain for simple filters.
+   2. Resource Management: Since this query only fetches specific rows (WHERE > 50), an 
+      implicit cursor handles the memory allocation and closing automatically, preventing 
+      memory leaks in the database session.
+*/
+
+SELECT 
+    ku.cust_id, 
+    u.upgrade_work, 
+    ku.kayak_upgrade_amt
+FROM 
+    kayak_upgrades ku
+JOIN 
+    upgrades u ON ku.upgrade_id = u.upgrade_id
+WHERE 
+    ku.kayak_upgrade_amt > 50;
+    c:\Users\Student\Pictures\Screenshots\Screenshot 2026-04-10 125543.png
