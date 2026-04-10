@@ -1,5 +1,6 @@
 assignment.sql
 
+Question 2
 /* ====================================================================
 Project Name: Kayak Rental Database Schema
 Author: Kamvelihle Athabile Dyantyi
@@ -79,33 +80,21 @@ INSERT INTO kayak_upgrades VALUES (5005, '10-APR-2026', 1200, 12349, 5, 105); --
 
 SELECT * FROM kayaks;
 SELECT * FROM customers;
-SELECT * FROM upgrades;
+SELECT * FROM upgrades;mah mcma
 SELECT * FROM kayak_upgrades;
 
+Question 3
 
+naming issue
 
+ALTER SESSION SET "_ORACLE_SCRIPT"=true;
 
+CREATE USER Tshepo IDENTIFIED BY tmphooabc2023;
+CREATE USER Mya IDENTIFIED BY mrobertabc2023;
 
+//just to check if they were created , Had to do these Twice
+GRANT CREATE SESSION TO Tshepo, Mya;
+GRANT SELECT ANY TABLE TO Tshepo, Mya;
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+-- This is to check if the users are saved and to visually see them 
+SELECT username FROM all_users WHERE username IN ('TSHEPO', 'MYA');
